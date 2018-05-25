@@ -51,7 +51,6 @@ export class TruckDataComponent implements OnInit {
   ) {
     const self = this;
     let dispatchSubscription;
-    let selectSubscription;
     let updateSubscription;
     let insertSubscription;
     let removeSubscription;
@@ -102,16 +101,24 @@ export class TruckDataComponent implements OnInit {
                 filter
               )
             )
-            .subscribe(() => {
-              selectSubscription = self.store
-                .select(TruckState.gridData)
-                .subscribe(response => {
-                  console.log(response);
-                  return res({
-                    data: response.data,
-                    totalCount: response.totalCount
-                  });
+            .subscribe(result => {
+              const truckArray = Object.keys(result.truck.trucks).map(
+                id => result.truck.trucks[id]
+              );
+              if (order) {
+                const sortedTruckArray = truckArray.sort(
+                  self.dynamicSort(order)
+                );
+                return res({
+                  data: sortedTruckArray,
+                  totalCount: result.truck.total
                 });
+              } else {
+                return res({
+                  data: truckArray,
+                  totalCount: result.truck.total
+                });
+              }
             });
         });
       },
@@ -151,7 +158,6 @@ export class TruckDataComponent implements OnInit {
         });
       },
       onLoaded() {
-        selectSubscription.unsubscribe();
         dispatchSubscription.unsubscribe();
       },
       onUpdated() {
@@ -197,5 +203,18 @@ export class TruckDataComponent implements OnInit {
   updateTruck(value) {
     this.store.dispatch(new TruckActions.UpdateTruck(value.value));
     console.log('Update', value);
+  }
+
+  dynamicSort(property: string) {
+    let sortOrder = 1;
+    if (property.includes(' DESC')) {
+      sortOrder = -1;
+      property = property.split(' ')[0];
+    }
+    return function(a, b) {
+      const result =
+        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+      return result * sortOrder;
+    };
   }
 }
