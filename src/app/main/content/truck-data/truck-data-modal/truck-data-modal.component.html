@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>Truck</h1>
+
+<mat-dialog-content>
+
+  <form [formGroup]="truckForm" layout="row">
+
+    <div fxLayout="row" fxLayoutAlign="start start">
+      <mat-form-field layout="column">
+        <input matInput name="number" placeholder="Number" formControlName="number">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start start">
+      <mat-form-field>
+        <input matInput name="brand" placeholder="Brand" formControlName="brand">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start start">
+      <mat-form-field>
+        <input matInput name="licencePlate" placeholder="Licence plate" formControlName="licencePlate">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start start">
+      <mat-form-field>
+        <input matInput name="chassis" placeholder="Chassis" formControlName="chassis">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start start">
+
+      <mat-checkbox labelPosition="before" formControlName="rental">Rental</mat-checkbox>
+      <!-- <input matInput name="rental" placeholder="Rental" formControlName="rental"> -->
+
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+
+  <button mat-raised-button mat-dialog-close>No</button>
+  <button mat-raised-button (click)="dialogRef.close(truckForm)" class="save-button mat-accent">Yes</button>
+
+</mat-dialog-actions>

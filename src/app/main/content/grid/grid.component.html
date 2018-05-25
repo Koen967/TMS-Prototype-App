@@ -1,0 +1,29 @@
+<div class="page-layout blank p-24" fusePerfectScrollbar>
+
+  <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showRowLines]="true" [showBorders]="true" [allowColumnReordering]="true"
+    [hoverStateEnabled]="true" [columns]="columns">
+
+    <dxo-remote-operations [filtering]="true" [sorting]="true" [paging]="true">
+    </dxo-remote-operations>
+
+    <dxo-column-chooser [enabled]="true" mode="select">
+    </dxo-column-chooser>
+
+    <dxo-sorting mode="single">
+    </dxo-sorting>
+
+    <dxo-filter-row [visible]="true" applyFilter="onClick">
+    </dxo-filter-row>
+
+    <dxo-selection mode="multiple" [allowSelectAll]="false">
+    </dxo-selection>
+
+    <dxo-paging [pageSize]="10">
+    </dxo-paging>
+
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showNavigationButtons]="true">
+    </dxo-pager>
+
+  </dx-data-grid>
+
+</div>
