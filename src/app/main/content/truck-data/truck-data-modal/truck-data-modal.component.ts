@@ -15,7 +15,6 @@ export class TruckDataModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder
   ) {
-    console.log(this.data);
     this.truckForm = this.createTruckForm();
   }
 

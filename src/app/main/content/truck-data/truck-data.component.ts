@@ -7,24 +7,18 @@ import {
 
 import DataSource from 'devextreme/data/data_source';
 import CustomStore from 'devextreme/data/custom_store';
-import ArrayStore from 'devextreme/data/array_store';
 
 import { Store, Select } from '@ngxs/store';
 import { TruckState } from './store/states/truck.state';
 import * as TruckActions from './store/actions/truck.actions';
 
-import { reject, resolve } from 'q';
-
 import { Observable } from 'rxjs/Observable';
-import { tap } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
 
 import { MatDialog } from '@angular/material';
 import { TruckDataModalComponent } from './truck-data-modal/truck-data-modal.component';
 
 import { TruckDataService } from './truck-data.service';
 import { Truck } from '../../models/truck.model';
-import { $, promise } from 'protractor';
 import { DxDataGridComponent } from 'devextreme-angular/ui/data-grid';
 
 @Component({
@@ -60,7 +54,7 @@ export class TruckDataComponent implements OnInit {
       load(loadOptions: any) {
         console.log(loadOptions);
         // Filter
-        let filter = '';
+        let filter: string;
         if (loadOptions.filter) {
           if (loadOptions.filter[0] instanceof Array) {
             filter = '';
@@ -77,17 +71,19 @@ export class TruckDataComponent implements OnInit {
               loadOptions.filter[2]
             }`;
           }
+        } else {
+          filter = '';
         }
 
         // Sorting
-        let order = null;
+        let order: string;
         if (loadOptions.sort) {
           order = loadOptions.sort[0].selector;
           if (loadOptions.sort[0].desc === true) {
             order = loadOptions.sort[0].selector + ' DESC';
           }
         } else {
-          order = null;
+          order = '';
         }
 
         return new Promise((res, rej) => {
@@ -127,7 +123,6 @@ export class TruckDataComponent implements OnInit {
           updateSubscription = self.store
             .dispatch(new TruckActions.UpdateTruck(values))
             .subscribe(result => {
-              console.log('UPDATE', result);
               return res({
                 key: key,
                 result: result
@@ -140,7 +135,6 @@ export class TruckDataComponent implements OnInit {
           insertSubscription = self.store
             .dispatch(new TruckActions.InsertTruck(values))
             .subscribe(result => {
-              console.log('INSERT', values);
               return res({
                 value: values
               });
@@ -152,7 +146,6 @@ export class TruckDataComponent implements OnInit {
           removeSubscription = self.store
             .dispatch(new TruckActions.DeleteTruck(key.id))
             .subscribe(result => {
-              console.log('REMOVE', key);
               return res();
             });
         });
@@ -184,7 +177,6 @@ export class TruckDataComponent implements OnInit {
   }
 
   rowClickEvent(data) {
-    console.log('Click', data);
     this.dialogRef = this.dialog.open(TruckDataModalComponent, {
       data: {
         truck: data.data
@@ -192,17 +184,11 @@ export class TruckDataComponent implements OnInit {
     });
 
     this.dialogRef.afterClosed().subscribe(response => {
-      console.log('TEST');
       if (!response) {
         return;
       }
       this.customStore.update(response.value.id, response.value);
     });
-  }
-
-  updateTruck(value) {
-    this.store.dispatch(new TruckActions.UpdateTruck(value.value));
-    console.log('Update', value);
   }
 
   dynamicSort(property: string) {

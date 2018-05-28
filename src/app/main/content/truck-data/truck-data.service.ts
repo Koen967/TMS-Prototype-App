@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Filter } from '../../models/filter.model';
 import { Truck } from '../../models/truck.model';
 import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Injectable()
 export class TruckDataService {

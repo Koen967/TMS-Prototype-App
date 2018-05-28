@@ -12,30 +12,55 @@ export class GetData {
 
 export class GetDataSuccess {
   static readonly type = '[TRUCK] Get data success';
-  constructor(public trucks: any) {}
+  constructor(public readonly trucks: any) {}
 }
 
 export class GetDataFailed {
   static readonly type = '[TRUCK] Get data failed';
-  constructor(public error: any) {}
+  constructor(public readonly error: any) {}
 }
 
 export class GetTotalRows {
   static readonly type = '[TRUCK] Get total rows';
-  constructor(public filter: any) {}
+  constructor(public readonly filter: any) {}
+}
+
+export class GetTotalRowsSuccess {
+  static readonly type = '[TRUCK] Get Total Rows Success';
+  constructor(public readonly rows: number) {}
 }
 
 export class UpdateTruck {
   static readonly type = '[TRUCK] Update truck';
-  constructor(public truck: Truck) {}
+  constructor(public readonly truck: Truck) {}
+}
+
+export class UpdateTuckSuccess {
+  static readonly type = '[TRUCK] Update Tuck Success';
+  constructor(public readonly truck: Truck) {}
 }
 
 export class InsertTruck {
   static readonly type = '[TRUCK] Insert truck';
-  constructor(public truck: Truck) {}
+  constructor(public readonly truck: Truck) {}
+}
+
+export class InsertTruckSuccess {
+  static readonly type = '[TRUCK] Insert Truck Success';
+  constructor(public readonly truck: Truck) {}
 }
 
 export class DeleteTruck {
   static readonly type = '[TRUCK] Delete truck';
-  constructor(public key: number) {}
+  constructor(public readonly key: number) {}
+}
+
+export class DeleteTruckSuccess {
+  static readonly type = '[TRUCK] Delete Truck Success';
+  constructor(public readonly key: number) {}
+}
+
+export class ActionFailed {
+  static readonly type = '[TRUCK] ActionFailed';
+  constructor(public readonly error: any) {}
 }

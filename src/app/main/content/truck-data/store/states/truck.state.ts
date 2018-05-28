@@ -6,6 +6,7 @@ import * as TruckActions from '../actions/truck.actions';
 
 import { Truck } from '../../../../models/truck.model';
 import { TruckDataService } from '../../truck-data.service';
+import { DialogService } from '../../../../dialog/dialog.service';
 
 export class TruckStateModel {
   trucks: { [id: number]: Truck };
@@ -32,7 +33,10 @@ export class TruckStateModel {
   }
 })
 export class TruckState {
-  constructor(private service: TruckDataService) {}
+  constructor(
+    private service: TruckDataService,
+    private dialogService: DialogService
+  ) {}
 
   @Selector()
   static trucksLoaded(state: TruckStateModel) {
@@ -82,7 +86,6 @@ export class TruckState {
   ) {
     const state = ctx.getState();
     state.trucks = null;
-    console.log(action.trucks);
     const entities = action.trucks.reduce(
       (truckEntities: { [id: number]: Truck }, truck: Truck) => {
         return {
@@ -94,7 +97,6 @@ export class TruckState {
         ...state.trucks
       }
     );
-    console.log('Reduce', entities);
     ctx.patchState({
       trucks: entities,
       loading: false,
@@ -111,6 +113,8 @@ export class TruckState {
       loading: false,
       loaded: false
     });
+
+    this.dialogService.openDialog('Error', action.error);
   }
 
   @Action(TruckActions.GetTotalRows)
@@ -118,13 +122,24 @@ export class TruckState {
     ctx: StateContext<TruckStateModel>,
     action: TruckActions.GetTotalRows
   ) {
-    return this.service.getRowCount(action.filter).pipe(
-      tap(result => {
-        ctx.patchState({
-          total: result
-        });
-      })
-    );
+    return this.service
+      .getRowCount(action.filter)
+      .pipe(
+        map(amount =>
+          ctx.dispatch(new TruckActions.GetTotalRowsSuccess(amount))
+        ),
+        catchError(error => ctx.dispatch(new TruckActions.ActionFailed(error)))
+      );
+  }
+
+  @Action(TruckActions.GetTotalRowsSuccess)
+  getTotalRowsSuccess(
+    ctx: StateContext<TruckStateModel>,
+    action: TruckActions.GetTotalRowsSuccess
+  ) {
+    ctx.patchState({
+      total: action.rows
+    });
   }
 
   @Action(TruckActions.UpdateTruck)
@@ -132,6 +147,21 @@ export class TruckState {
     ctx: StateContext<TruckStateModel>,
     action: TruckActions.UpdateTruck
   ) {
+    return this.service
+      .updateTruck(action.truck)
+      .pipe(
+        map(() =>
+          ctx.dispatch(new TruckActions.UpdateTuckSuccess(action.truck))
+        ),
+        catchError(error => ctx.dispatch(new TruckActions.ActionFailed(error)))
+      );
+  }
+
+  @Action(TruckActions.UpdateTuckSuccess)
+  updateTruckSuccess(
+    ctx: StateContext<TruckStateModel>,
+    action: TruckActions.UpdateTuckSuccess
+  ) {
     const state = ctx.getState();
     ctx.patchState({
       trucks: {
@@ -139,8 +169,6 @@ export class TruckState {
         [action.truck.id]: action.truck
       }
     });
-
-    return this.service.updateTruck(action.truck);
   }
 
   @Action(TruckActions.InsertTruck)
@@ -148,6 +176,21 @@ export class TruckState {
     ctx: StateContext<TruckStateModel>,
     action: TruckActions.InsertTruck
   ) {
+    return this.service
+      .insertTruck(action.truck)
+      .pipe(
+        map(() =>
+          ctx.dispatch(new TruckActions.InsertTruckSuccess(action.truck))
+        ),
+        catchError(error => ctx.dispatch(new TruckActions.ActionFailed(error)))
+      );
+  }
+
+  @Action(TruckActions.InsertTruckSuccess)
+  insertTruckSuccess(
+    ctx: StateContext<TruckStateModel>,
+    action: TruckActions.InsertTruckSuccess
+  ) {
     const state = ctx.getState();
     ctx.patchState({
       trucks: {
@@ -155,8 +198,6 @@ export class TruckState {
         [action.truck.id]: action.truck
       }
     });
-
-    return this.service.insertTruck(action.truck);
   }
 
   @Action(TruckActions.DeleteTruck)
@@ -164,12 +205,33 @@ export class TruckState {
     ctx: StateContext<TruckStateModel>,
     action: TruckActions.DeleteTruck
   ) {
+    return this.service
+      .deleteTruck(action.key)
+      .pipe(
+        map(() =>
+          ctx.dispatch(new TruckActions.DeleteTruckSuccess(action.key))
+        ),
+        catchError(error => ctx.dispatch(new TruckActions.ActionFailed(error)))
+      );
+  }
+
+  @Action(TruckActions.DeleteTruckSuccess)
+  deleteTruckSuccess(
+    ctx: StateContext<TruckStateModel>,
+    action: TruckActions.DeleteTruckSuccess
+  ) {
     const state = ctx.getState();
     const { [action.key]: deleted, ...newTrucks } = state.trucks;
     ctx.patchState({
       trucks: newTrucks
     });
+  }
 
-    return this.service.deleteTruck(action.key);
+  @Action(TruckActions.ActionFailed)
+  actionFailed(
+    ctx: StateContext<TruckStateModel>,
+    action: TruckActions.ActionFailed
+  ) {
+    this.dialogService.openDialog('Error', action.error);
   }
 }
