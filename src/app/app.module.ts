@@ -23,7 +23,6 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 
 import { AppComponent } from './app.component';
 import { FuseMainModule } from './main/main.module';
-import { FuseSampleModule } from './main/content/sample/sample.module';
 
 const appRoutes: Routes = [
   {

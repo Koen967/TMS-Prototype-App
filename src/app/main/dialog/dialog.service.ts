@@ -20,8 +20,6 @@ export class DialogService {
           data: dialogData
         });
         break;
-      case '':
-        return;
       default:
         return;
     }

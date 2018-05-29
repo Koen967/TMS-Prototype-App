@@ -1,4 +1,8 @@
-<h1 mat-dialog-title>Truck</h1>
+<mat-toolbar matDialogTitle class="mat-accent m-0">
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">Truck</span>
+  </mat-toolbar-row>
+</mat-toolbar>
 
 <mat-dialog-content>
 
@@ -31,7 +35,6 @@
     <div fxLayout="row" fxLayoutAlign="start start">
 
       <mat-checkbox labelPosition="before" formControlName="rental">Rental</mat-checkbox>
-      <!-- <input matInput name="rental" placeholder="Rental" formControlName="rental"> -->
 
     </div>
 

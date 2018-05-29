@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './truck-data-modal.component.html',
   styleUrls: ['./truck-data-modal.component.scss']
 })
-export class TruckDataModalComponent implements OnInit {
+export class TruckDataModalComponent {
   truckForm: FormGroup;
 
   constructor(
@@ -17,8 +17,6 @@ export class TruckDataModalComponent implements OnInit {
   ) {
     this.truckForm = this.createTruckForm();
   }
-
-  ngOnInit() {}
 
   createTruckForm() {
     return this.formBuilder.group({

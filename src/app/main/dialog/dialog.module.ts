@@ -7,8 +7,7 @@ import {
   MatDialogModule,
   MatButtonModule,
   MatIconModule,
-  MatToolbarModule,
-  MAT_DIALOG_DATA
+  MatToolbarModule
 } from '@angular/material';
 
 @NgModule({

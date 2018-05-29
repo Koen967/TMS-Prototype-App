@@ -16,7 +16,8 @@ import {
   MatInputModule,
   MatSelectModule,
   MatDialogModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatToolbarModule
 } from '@angular/material';
 
 const routes = [
@@ -38,7 +39,8 @@ const routes = [
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatToolbarModule
   ],
   declarations: [TruckDataComponent, TruckDataModalComponent],
   exports: [TruckDataComponent],

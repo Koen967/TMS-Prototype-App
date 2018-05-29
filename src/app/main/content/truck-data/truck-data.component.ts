@@ -4,22 +4,21 @@ import {
   ChangeDetectionStrategy,
   ViewChild
 } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import DataSource from 'devextreme/data/data_source';
 import CustomStore from 'devextreme/data/custom_store';
+import { DxDataGridComponent } from 'devextreme-angular/ui/data-grid';
 
 import { Store, Select } from '@ngxs/store';
 import { TruckState } from './store/states/truck.state';
 import * as TruckActions from './store/actions/truck.actions';
 
-import { Observable } from 'rxjs/Observable';
-
 import { MatDialog } from '@angular/material';
-import { TruckDataModalComponent } from './truck-data-modal/truck-data-modal.component';
 
-import { TruckDataService } from './truck-data.service';
 import { Truck } from '../../models/truck.model';
-import { DxDataGridComponent } from 'devextreme-angular/ui/data-grid';
+import { TruckDataService } from './truck-data.service';
+import { TruckDataModalComponent } from './truck-data-modal/truck-data-modal.component';
 
 @Component({
   selector: 'fuse-truck-data',
@@ -34,9 +33,8 @@ export class TruckDataComponent implements OnInit {
 
   dataSource = {};
   customStore;
-  columns;
+  columns: string[];
   dialogRef;
-  totalTrucks;
 
   constructor(
     private service: TruckDataService,
@@ -170,10 +168,6 @@ export class TruckDataComponent implements OnInit {
 
   ngOnInit() {
     this.columns = ['number', 'brand', 'licencePlate', 'chassis', 'rental'];
-  }
-
-  loadData(params: any) {
-    this.trucks$ = this.service.getTrucks();
   }
 
   rowClickEvent(data) {

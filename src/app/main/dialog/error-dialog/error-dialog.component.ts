@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -7,7 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './error-dialog.component.html',
   styleUrls: ['./error-dialog.component.scss']
 })
-export class ErrorDialogComponent implements OnInit {
+export class ErrorDialogComponent {
   error: any;
   dialogTitle: string;
   errorCode: number;
@@ -21,6 +21,4 @@ export class ErrorDialogComponent implements OnInit {
     this.errorCode = this.data.status;
     this.errorDescription = this.data.message;
   }
-
-  ngOnInit() {}
 }
