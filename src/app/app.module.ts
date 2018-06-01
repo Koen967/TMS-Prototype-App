@@ -18,11 +18,14 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { fuseConfig } from './fuse-config';
 
 import { NgxsModule } from '@ngxs/store';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { AuthenticationState } from './main/content/pages/authentication/store/states/authentication.state';
 
 import { AppComponent } from './app.component';
 import { FuseMainModule } from './main/main.module';
+import { AuthenticationGuard } from './main/content/pages/authentication/authentication.guard';
 
 const appRoutes: Routes = [
   {
@@ -31,7 +34,12 @@ const appRoutes: Routes = [
   },
   {
     path: 'sample',
-    loadChildren: './main/content/sample/sample.module#FuseSampleModule'
+    loadChildren: './main/content/sample/sample.module#FuseSampleModule',
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'pages',
+    loadChildren: './main/content/pages/pages.module#FusePagesModule'
   },
   {
     path: '**',
@@ -47,7 +55,10 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     TranslateModule.forRoot(),
-    NgxsModule.forRoot([]),
+    NgxsModule.forRoot([AuthenticationState]),
+    NgxsStoragePluginModule.forRoot({
+      key: 'authentication.token'
+    }),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
 
@@ -56,6 +67,7 @@ const appRoutes: Routes = [
     FuseSharedModule,
     FuseMainModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [AuthenticationGuard]
 })
 export class AppModule {}

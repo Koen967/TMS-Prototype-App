@@ -28,5 +28,34 @@ export const navigation = [
         url: '/truckData'
       }
     ]
+  },
+  {
+    id: 'pages',
+    title: 'Pages',
+    type: 'group',
+    icon: 'pages',
+    children: [
+      {
+        id: 'authentication',
+        title: 'Authentication',
+        type: 'collapse',
+        icon: 'lock',
+        children: [
+          {
+            id: 'login',
+            title: 'Login',
+            type: 'item',
+            url: '/pages/auth/login'
+          },
+
+          {
+            id: 'register',
+            title: 'Register',
+            type: 'item',
+            url: '/pages/auth/register'
+          }
+        ]
+      }
+    ]
   }
 ];

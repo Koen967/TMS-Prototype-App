@@ -36,6 +36,7 @@
     "@ngxs/devtools-plugin": "3.0.1",
     "@ngxs/logger-plugin": "3.0.1",
     "@ngxs/router-plugin": "3.0.1",
+    "@ngxs/storage-plugin": "3.0.1",
     "@ngxs/store": "3.0.1",
     "@swimlane/ngx-charts": "7.3.0",
     "@swimlane/ngx-datatable": "11.3.2",
