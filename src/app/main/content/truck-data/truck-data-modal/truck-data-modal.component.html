@@ -11,24 +11,36 @@
     <div fxLayout="row" fxLayoutAlign="start start">
       <mat-form-field layout="column">
         <input matInput name="number" placeholder="Number" formControlName="number">
+        <mat-error *ngIf="truckForm.controls['number'].hasError('required')">
+          Number is required
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="start start">
       <mat-form-field>
         <input matInput name="brand" placeholder="Brand" formControlName="brand">
+        <mat-error *ngIf="truckForm.controls['brand'].hasError('required')">
+          Brand is required
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="start start">
       <mat-form-field>
         <input matInput name="licencePlate" placeholder="Licence plate" formControlName="licencePlate">
+        <mat-error *ngIf="truckForm.controls['licencePlate'].hasError('required')">
+          Licence plate is required
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="start start">
       <mat-form-field>
         <input matInput name="chassis" placeholder="Chassis" formControlName="chassis">
+        <mat-error *ngIf="truckForm.controls['chassis'].hasError('required')">
+          Chassis is required
+        </mat-error>
       </mat-form-field>
     </div>
 
@@ -45,6 +57,6 @@
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
 
   <button mat-raised-button mat-dialog-close>No</button>
-  <button mat-raised-button (click)="dialogRef.close(truckForm)" class="save-button mat-accent">Yes</button>
+  <button mat-raised-button (click)="dialogRef.close(truckForm)" class="save-button mat-accent" [disabled]="truckForm.invalid">Yes</button>
 
 </mat-dialog-actions>

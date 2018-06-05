@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'fuse-truck-data-modal',
@@ -20,11 +20,11 @@ export class TruckDataModalComponent {
 
   createTruckForm() {
     return this.formBuilder.group({
-      id: [this.data.truck.id],
-      number: [this.data.truck.number],
-      brand: [this.data.truck.brand],
-      licencePlate: [this.data.truck.licencePlate],
-      chassis: [this.data.truck.chassis],
+      id: [this.data.truck.id, Validators.required],
+      number: [this.data.truck.number, Validators.required],
+      brand: [this.data.truck.brand, Validators.required],
+      licencePlate: [this.data.truck.licencePlate, Validators.required],
+      chassis: [this.data.truck.chassis, Validators.required],
       rental: [this.data.truck.rental]
     });
   }
