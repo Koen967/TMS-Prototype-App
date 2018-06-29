@@ -6,3 +6,8 @@ export class Login {
 export class Logout {
   static readonly type = '[AUTHENTICATION] Logout';
 }
+
+export class Token {
+  static readonly type = '[AUTH] Token]';
+  constructor(public readonly token: string) {}
+}

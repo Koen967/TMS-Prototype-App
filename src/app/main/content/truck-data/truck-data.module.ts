@@ -25,6 +25,15 @@ const routes = [
     path: '',
     component: TruckDataComponent
     // canActivate: [TruckGuard]
+  },
+  {
+    path: 'testRoute1'
+  },
+  {
+    path: 'testRoute2'
+  },
+  {
+    path: 'testRoute3'
   }
 ];
 

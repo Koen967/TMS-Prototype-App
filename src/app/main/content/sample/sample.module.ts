@@ -11,6 +11,15 @@ const routes = [
   {
     path: 'sample',
     component: FuseSampleComponent
+  },
+  {
+    path: 'testRoute1'
+  },
+  {
+    path: 'testRoute2'
+  },
+  {
+    path: 'testRoute3'
   }
 ];
 

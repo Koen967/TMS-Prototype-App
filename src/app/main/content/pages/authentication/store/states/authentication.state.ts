@@ -55,4 +55,14 @@ export class AuthenticationState {
       username: null
     });
   }
+
+  @Action(AuthenticationActions.Token)
+  token(
+    ctx: StateContext<AuthenticationStateModel>,
+    action: AuthenticationActions.Token
+  ) {
+    ctx.patchState({
+      token: action.token
+    });
+  }
 }

@@ -13,12 +13,16 @@ import { DxDataGridComponent } from 'devextreme-angular/ui/data-grid';
 import { Store, Select } from '@ngxs/store';
 import { TruckState } from './store/states/truck.state';
 import * as TruckActions from './store/actions/truck.actions';
+import * as AuthenticationActions from '../pages/authentication/store/actions/authentication.actions';
 
 import { MatDialog } from '@angular/material';
 
 import { Truck } from '../../models/truck.model';
 import { TruckDataService } from './truck-data.service';
 import { TruckDataModalComponent } from './truck-data-modal/truck-data-modal.component';
+import { Router } from '@angular/router';
+
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'fuse-truck-data',
@@ -39,8 +43,11 @@ export class TruckDataComponent implements OnInit {
   constructor(
     private service: TruckDataService,
     private store: Store,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router,
+    private jwt: JwtHelperService
   ) {
+    console.log('Router', this.router.config);
     const self = this;
     let dispatchSubscription;
     let updateSubscription;
@@ -167,7 +174,18 @@ export class TruckDataComponent implements OnInit {
   }
 
   ngOnInit() {
+    const header =
+      'eyJhbGciOiJSUzI1NiIsImtpZCI6ImIwZjIxOGI0NjJmZDFiMjNiNDlkZDRmNDk5ZDk1NTljIiwidHlwIjoiSldUIn0';
+    const payload =
+      'eyJuYmYiOjE1MzAyNTcwOTcsImV4cCI6MTUzMDI2MDY5NywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIiwiYXVkIjpbImh0dHA6Ly9sb2NhbGhvc3Q6NTAwMC9yZXNvdXJjZXMiLCJhcGkxIl0sImNsaWVudF9pZCI6Im12Y3Rlc3RjbGllbnQiLCJzdWIiOiI5MDdlZWM1My05OTFmLTQwN2UtOGJhMS1jY2FlZjBiZTZlNWQiLCJhdXRoX3RpbWUiOjE1MzAyNTcwMTksImlkcCI6ImxvY2FsIiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImVtYWlsIiwiYXBpMSJdLCJhbXIiOlsicHdkIl19';
+    const signature =
+      'UzNZA1zHYzbrX4UI-CDLFYCty1Z2PQ9AwYOerO_xizWYB30BGeo33slfJrZrVLXMKMqQKld18vGNYY-u5pE_9ssVXTJaPZ7C8bEqoYClwcpu86jR8FprdrFXRwfhVcHfStALURQieLVG2e13sCzIv3lsDn9YBIGhBDnJLXq2fYOFQZMxYyol3PNiPZBkYK3d0Y6V1IwkV3NJEcrSfojWnFcH5nmkxlY5GJ1olPEaZxpAybjWYBooATLrkQWT-2EbT8ThSxfAU1L1cTo6q-v4mzDtiJxXnoJOlSxIU6TRPi2uozLN37Z2hmU93u8WCRzA3tr8K3Yi1hTU0Jb5itZRWg';
+    const token = `${header}.${payload}.${signature}`;
+    this.store.dispatch(new AuthenticationActions.Token('THIS IS THE TOKEN'));
+    localStorage.setItem('authentication.trial', 'THIS IS THE TRIAL');
+    console.log('Storage', localStorage.getItem('authentication.token'));
     this.columns = ['number', 'brand', 'licencePlate', 'chassis', 'rental'];
+    console.log(this.jwt.decodeToken(token));
   }
 
   rowClickEvent(data) {

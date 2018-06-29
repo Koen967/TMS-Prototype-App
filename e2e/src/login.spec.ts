@@ -13,13 +13,10 @@ describe('Login', function() {
     browser.get('http://localhost:4200/');
   });
 
-  it('should have a title', function() {
+  it('Should log in', function() {
     expect(browser.getTitle()).toEqual(
       'Fuse - Angular 6+ Material Design Admin Template'
     );
-  });
-
-  it('Should log in', function() {
     username.sendKeys('Admin');
     password.sendKeys(
       'f5486a9039bc7afbfb6b486e7420f57697b5274ecffb6d1aa736d7b4c3368ce4'

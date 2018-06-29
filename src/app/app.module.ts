@@ -21,11 +21,18 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AuthenticationState } from './main/content/pages/authentication/store/states/authentication.state';
 
 import { AppComponent } from './app.component';
 import { FuseMainModule } from './main/main.module';
 import { AuthenticationGuard } from './main/content/pages/authentication/authentication.guard';
+
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('authentication.token');
+}
 
 const appRoutes: Routes = [
   {
@@ -35,7 +42,8 @@ const appRoutes: Routes = [
   {
     path: 'sample',
     loadChildren: './main/content/sample/sample.module#FuseSampleModule',
-    canActivate: [AuthenticationGuard]
+    /* canActivate: [AuthenticationGuard], */
+    data: { page: 'Sample' }
   },
   {
     path: 'pages',
@@ -56,6 +64,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     TranslateModule.forRoot(),
     NgxsModule.forRoot([AuthenticationState]),
+    NgxsRouterPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot({
       key: 'authentication.token'
     }),
@@ -65,7 +74,13 @@ const appRoutes: Routes = [
     // Fuse Main and Shared modules
     FuseModule.forRoot(fuseConfig),
     FuseSharedModule,
-    FuseMainModule
+    FuseMainModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:62665']
+      }
+    })
   ],
   bootstrap: [AppComponent],
   providers: [AuthenticationGuard]
